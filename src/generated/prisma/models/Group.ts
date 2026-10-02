@@ -244,11 +244,11 @@ export type GroupWhereInput = {
   classroom?: Prisma.StringFilter<"Group"> | string
   capacity?: Prisma.IntFilter<"Group"> | number
   status?: Prisma.EnumGroupStatusFilter<"Group"> | $Enums.GroupStatus
+  assignments?: Prisma.AssignmentListRelationFilter
+  enrollments?: Prisma.EnrollmentListRelationFilter
   courseOffering?: Prisma.XOR<Prisma.CourseOfferingScalarRelationFilter, Prisma.CourseOfferingWhereInput>
   teacher?: Prisma.XOR<Prisma.TeacherScalarRelationFilter, Prisma.TeacherWhereInput>
   schedules?: Prisma.ScheduleListRelationFilter
-  enrollments?: Prisma.EnrollmentListRelationFilter
-  assignments?: Prisma.AssignmentListRelationFilter
 }
 
 export type GroupOrderByWithRelationInput = {
@@ -259,11 +259,11 @@ export type GroupOrderByWithRelationInput = {
   classroom?: Prisma.SortOrder
   capacity?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  assignments?: Prisma.AssignmentOrderByRelationAggregateInput
+  enrollments?: Prisma.EnrollmentOrderByRelationAggregateInput
   courseOffering?: Prisma.CourseOfferingOrderByWithRelationInput
   teacher?: Prisma.TeacherOrderByWithRelationInput
   schedules?: Prisma.ScheduleOrderByRelationAggregateInput
-  enrollments?: Prisma.EnrollmentOrderByRelationAggregateInput
-  assignments?: Prisma.AssignmentOrderByRelationAggregateInput
 }
 
 export type GroupWhereUniqueInput = Prisma.AtLeast<{
@@ -278,11 +278,11 @@ export type GroupWhereUniqueInput = Prisma.AtLeast<{
   classroom?: Prisma.StringFilter<"Group"> | string
   capacity?: Prisma.IntFilter<"Group"> | number
   status?: Prisma.EnumGroupStatusFilter<"Group"> | $Enums.GroupStatus
+  assignments?: Prisma.AssignmentListRelationFilter
+  enrollments?: Prisma.EnrollmentListRelationFilter
   courseOffering?: Prisma.XOR<Prisma.CourseOfferingScalarRelationFilter, Prisma.CourseOfferingWhereInput>
   teacher?: Prisma.XOR<Prisma.TeacherScalarRelationFilter, Prisma.TeacherWhereInput>
   schedules?: Prisma.ScheduleListRelationFilter
-  enrollments?: Prisma.EnrollmentListRelationFilter
-  assignments?: Prisma.AssignmentListRelationFilter
 }, "id" | "courseOfferingId_name">
 
 export type GroupOrderByWithAggregationInput = {
@@ -318,11 +318,11 @@ export type GroupCreateInput = {
   classroom: string
   capacity: number
   status?: $Enums.GroupStatus
+  assignments?: Prisma.AssignmentCreateNestedManyWithoutGroupInput
+  enrollments?: Prisma.EnrollmentCreateNestedManyWithoutGroupInput
   courseOffering: Prisma.CourseOfferingCreateNestedOneWithoutGroupsInput
   teacher: Prisma.TeacherCreateNestedOneWithoutGroupsInput
   schedules?: Prisma.ScheduleCreateNestedManyWithoutGroupInput
-  enrollments?: Prisma.EnrollmentCreateNestedManyWithoutGroupInput
-  assignments?: Prisma.AssignmentCreateNestedManyWithoutGroupInput
 }
 
 export type GroupUncheckedCreateInput = {
@@ -333,9 +333,9 @@ export type GroupUncheckedCreateInput = {
   classroom: string
   capacity: number
   status?: $Enums.GroupStatus
-  schedules?: Prisma.ScheduleUncheckedCreateNestedManyWithoutGroupInput
-  enrollments?: Prisma.EnrollmentUncheckedCreateNestedManyWithoutGroupInput
   assignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutGroupInput
+  enrollments?: Prisma.EnrollmentUncheckedCreateNestedManyWithoutGroupInput
+  schedules?: Prisma.ScheduleUncheckedCreateNestedManyWithoutGroupInput
 }
 
 export type GroupUpdateInput = {
@@ -343,11 +343,11 @@ export type GroupUpdateInput = {
   classroom?: Prisma.StringFieldUpdateOperationsInput | string
   capacity?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumGroupStatusFieldUpdateOperationsInput | $Enums.GroupStatus
+  assignments?: Prisma.AssignmentUpdateManyWithoutGroupNestedInput
+  enrollments?: Prisma.EnrollmentUpdateManyWithoutGroupNestedInput
   courseOffering?: Prisma.CourseOfferingUpdateOneRequiredWithoutGroupsNestedInput
   teacher?: Prisma.TeacherUpdateOneRequiredWithoutGroupsNestedInput
   schedules?: Prisma.ScheduleUpdateManyWithoutGroupNestedInput
-  enrollments?: Prisma.EnrollmentUpdateManyWithoutGroupNestedInput
-  assignments?: Prisma.AssignmentUpdateManyWithoutGroupNestedInput
 }
 
 export type GroupUncheckedUpdateInput = {
@@ -358,9 +358,9 @@ export type GroupUncheckedUpdateInput = {
   classroom?: Prisma.StringFieldUpdateOperationsInput | string
   capacity?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumGroupStatusFieldUpdateOperationsInput | $Enums.GroupStatus
-  schedules?: Prisma.ScheduleUncheckedUpdateManyWithoutGroupNestedInput
-  enrollments?: Prisma.EnrollmentUncheckedUpdateManyWithoutGroupNestedInput
   assignments?: Prisma.AssignmentUncheckedUpdateManyWithoutGroupNestedInput
+  enrollments?: Prisma.EnrollmentUncheckedUpdateManyWithoutGroupNestedInput
+  schedules?: Prisma.ScheduleUncheckedUpdateManyWithoutGroupNestedInput
 }
 
 export type GroupCreateManyInput = {
@@ -589,10 +589,10 @@ export type GroupCreateWithoutTeacherInput = {
   classroom: string
   capacity: number
   status?: $Enums.GroupStatus
+  assignments?: Prisma.AssignmentCreateNestedManyWithoutGroupInput
+  enrollments?: Prisma.EnrollmentCreateNestedManyWithoutGroupInput
   courseOffering: Prisma.CourseOfferingCreateNestedOneWithoutGroupsInput
   schedules?: Prisma.ScheduleCreateNestedManyWithoutGroupInput
-  enrollments?: Prisma.EnrollmentCreateNestedManyWithoutGroupInput
-  assignments?: Prisma.AssignmentCreateNestedManyWithoutGroupInput
 }
 
 export type GroupUncheckedCreateWithoutTeacherInput = {
@@ -602,9 +602,9 @@ export type GroupUncheckedCreateWithoutTeacherInput = {
   classroom: string
   capacity: number
   status?: $Enums.GroupStatus
-  schedules?: Prisma.ScheduleUncheckedCreateNestedManyWithoutGroupInput
-  enrollments?: Prisma.EnrollmentUncheckedCreateNestedManyWithoutGroupInput
   assignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutGroupInput
+  enrollments?: Prisma.EnrollmentUncheckedCreateNestedManyWithoutGroupInput
+  schedules?: Prisma.ScheduleUncheckedCreateNestedManyWithoutGroupInput
 }
 
 export type GroupCreateOrConnectWithoutTeacherInput = {
@@ -651,10 +651,10 @@ export type GroupCreateWithoutCourseOfferingInput = {
   classroom: string
   capacity: number
   status?: $Enums.GroupStatus
+  assignments?: Prisma.AssignmentCreateNestedManyWithoutGroupInput
+  enrollments?: Prisma.EnrollmentCreateNestedManyWithoutGroupInput
   teacher: Prisma.TeacherCreateNestedOneWithoutGroupsInput
   schedules?: Prisma.ScheduleCreateNestedManyWithoutGroupInput
-  enrollments?: Prisma.EnrollmentCreateNestedManyWithoutGroupInput
-  assignments?: Prisma.AssignmentCreateNestedManyWithoutGroupInput
 }
 
 export type GroupUncheckedCreateWithoutCourseOfferingInput = {
@@ -664,9 +664,9 @@ export type GroupUncheckedCreateWithoutCourseOfferingInput = {
   classroom: string
   capacity: number
   status?: $Enums.GroupStatus
-  schedules?: Prisma.ScheduleUncheckedCreateNestedManyWithoutGroupInput
-  enrollments?: Prisma.EnrollmentUncheckedCreateNestedManyWithoutGroupInput
   assignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutGroupInput
+  enrollments?: Prisma.EnrollmentUncheckedCreateNestedManyWithoutGroupInput
+  schedules?: Prisma.ScheduleUncheckedCreateNestedManyWithoutGroupInput
 }
 
 export type GroupCreateOrConnectWithoutCourseOfferingInput = {
@@ -700,10 +700,10 @@ export type GroupCreateWithoutSchedulesInput = {
   classroom: string
   capacity: number
   status?: $Enums.GroupStatus
+  assignments?: Prisma.AssignmentCreateNestedManyWithoutGroupInput
+  enrollments?: Prisma.EnrollmentCreateNestedManyWithoutGroupInput
   courseOffering: Prisma.CourseOfferingCreateNestedOneWithoutGroupsInput
   teacher: Prisma.TeacherCreateNestedOneWithoutGroupsInput
-  enrollments?: Prisma.EnrollmentCreateNestedManyWithoutGroupInput
-  assignments?: Prisma.AssignmentCreateNestedManyWithoutGroupInput
 }
 
 export type GroupUncheckedCreateWithoutSchedulesInput = {
@@ -714,8 +714,8 @@ export type GroupUncheckedCreateWithoutSchedulesInput = {
   classroom: string
   capacity: number
   status?: $Enums.GroupStatus
-  enrollments?: Prisma.EnrollmentUncheckedCreateNestedManyWithoutGroupInput
   assignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutGroupInput
+  enrollments?: Prisma.EnrollmentUncheckedCreateNestedManyWithoutGroupInput
 }
 
 export type GroupCreateOrConnectWithoutSchedulesInput = {
@@ -739,10 +739,10 @@ export type GroupUpdateWithoutSchedulesInput = {
   classroom?: Prisma.StringFieldUpdateOperationsInput | string
   capacity?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumGroupStatusFieldUpdateOperationsInput | $Enums.GroupStatus
+  assignments?: Prisma.AssignmentUpdateManyWithoutGroupNestedInput
+  enrollments?: Prisma.EnrollmentUpdateManyWithoutGroupNestedInput
   courseOffering?: Prisma.CourseOfferingUpdateOneRequiredWithoutGroupsNestedInput
   teacher?: Prisma.TeacherUpdateOneRequiredWithoutGroupsNestedInput
-  enrollments?: Prisma.EnrollmentUpdateManyWithoutGroupNestedInput
-  assignments?: Prisma.AssignmentUpdateManyWithoutGroupNestedInput
 }
 
 export type GroupUncheckedUpdateWithoutSchedulesInput = {
@@ -753,8 +753,8 @@ export type GroupUncheckedUpdateWithoutSchedulesInput = {
   classroom?: Prisma.StringFieldUpdateOperationsInput | string
   capacity?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumGroupStatusFieldUpdateOperationsInput | $Enums.GroupStatus
-  enrollments?: Prisma.EnrollmentUncheckedUpdateManyWithoutGroupNestedInput
   assignments?: Prisma.AssignmentUncheckedUpdateManyWithoutGroupNestedInput
+  enrollments?: Prisma.EnrollmentUncheckedUpdateManyWithoutGroupNestedInput
 }
 
 export type GroupCreateWithoutEnrollmentsInput = {
@@ -762,10 +762,10 @@ export type GroupCreateWithoutEnrollmentsInput = {
   classroom: string
   capacity: number
   status?: $Enums.GroupStatus
+  assignments?: Prisma.AssignmentCreateNestedManyWithoutGroupInput
   courseOffering: Prisma.CourseOfferingCreateNestedOneWithoutGroupsInput
   teacher: Prisma.TeacherCreateNestedOneWithoutGroupsInput
   schedules?: Prisma.ScheduleCreateNestedManyWithoutGroupInput
-  assignments?: Prisma.AssignmentCreateNestedManyWithoutGroupInput
 }
 
 export type GroupUncheckedCreateWithoutEnrollmentsInput = {
@@ -776,8 +776,8 @@ export type GroupUncheckedCreateWithoutEnrollmentsInput = {
   classroom: string
   capacity: number
   status?: $Enums.GroupStatus
-  schedules?: Prisma.ScheduleUncheckedCreateNestedManyWithoutGroupInput
   assignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutGroupInput
+  schedules?: Prisma.ScheduleUncheckedCreateNestedManyWithoutGroupInput
 }
 
 export type GroupCreateOrConnectWithoutEnrollmentsInput = {
@@ -801,10 +801,10 @@ export type GroupUpdateWithoutEnrollmentsInput = {
   classroom?: Prisma.StringFieldUpdateOperationsInput | string
   capacity?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumGroupStatusFieldUpdateOperationsInput | $Enums.GroupStatus
+  assignments?: Prisma.AssignmentUpdateManyWithoutGroupNestedInput
   courseOffering?: Prisma.CourseOfferingUpdateOneRequiredWithoutGroupsNestedInput
   teacher?: Prisma.TeacherUpdateOneRequiredWithoutGroupsNestedInput
   schedules?: Prisma.ScheduleUpdateManyWithoutGroupNestedInput
-  assignments?: Prisma.AssignmentUpdateManyWithoutGroupNestedInput
 }
 
 export type GroupUncheckedUpdateWithoutEnrollmentsInput = {
@@ -815,8 +815,8 @@ export type GroupUncheckedUpdateWithoutEnrollmentsInput = {
   classroom?: Prisma.StringFieldUpdateOperationsInput | string
   capacity?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumGroupStatusFieldUpdateOperationsInput | $Enums.GroupStatus
-  schedules?: Prisma.ScheduleUncheckedUpdateManyWithoutGroupNestedInput
   assignments?: Prisma.AssignmentUncheckedUpdateManyWithoutGroupNestedInput
+  schedules?: Prisma.ScheduleUncheckedUpdateManyWithoutGroupNestedInput
 }
 
 export type GroupCreateWithoutAssignmentsInput = {
@@ -824,10 +824,10 @@ export type GroupCreateWithoutAssignmentsInput = {
   classroom: string
   capacity: number
   status?: $Enums.GroupStatus
+  enrollments?: Prisma.EnrollmentCreateNestedManyWithoutGroupInput
   courseOffering: Prisma.CourseOfferingCreateNestedOneWithoutGroupsInput
   teacher: Prisma.TeacherCreateNestedOneWithoutGroupsInput
   schedules?: Prisma.ScheduleCreateNestedManyWithoutGroupInput
-  enrollments?: Prisma.EnrollmentCreateNestedManyWithoutGroupInput
 }
 
 export type GroupUncheckedCreateWithoutAssignmentsInput = {
@@ -838,8 +838,8 @@ export type GroupUncheckedCreateWithoutAssignmentsInput = {
   classroom: string
   capacity: number
   status?: $Enums.GroupStatus
-  schedules?: Prisma.ScheduleUncheckedCreateNestedManyWithoutGroupInput
   enrollments?: Prisma.EnrollmentUncheckedCreateNestedManyWithoutGroupInput
+  schedules?: Prisma.ScheduleUncheckedCreateNestedManyWithoutGroupInput
 }
 
 export type GroupCreateOrConnectWithoutAssignmentsInput = {
@@ -863,10 +863,10 @@ export type GroupUpdateWithoutAssignmentsInput = {
   classroom?: Prisma.StringFieldUpdateOperationsInput | string
   capacity?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumGroupStatusFieldUpdateOperationsInput | $Enums.GroupStatus
+  enrollments?: Prisma.EnrollmentUpdateManyWithoutGroupNestedInput
   courseOffering?: Prisma.CourseOfferingUpdateOneRequiredWithoutGroupsNestedInput
   teacher?: Prisma.TeacherUpdateOneRequiredWithoutGroupsNestedInput
   schedules?: Prisma.ScheduleUpdateManyWithoutGroupNestedInput
-  enrollments?: Prisma.EnrollmentUpdateManyWithoutGroupNestedInput
 }
 
 export type GroupUncheckedUpdateWithoutAssignmentsInput = {
@@ -877,8 +877,8 @@ export type GroupUncheckedUpdateWithoutAssignmentsInput = {
   classroom?: Prisma.StringFieldUpdateOperationsInput | string
   capacity?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumGroupStatusFieldUpdateOperationsInput | $Enums.GroupStatus
-  schedules?: Prisma.ScheduleUncheckedUpdateManyWithoutGroupNestedInput
   enrollments?: Prisma.EnrollmentUncheckedUpdateManyWithoutGroupNestedInput
+  schedules?: Prisma.ScheduleUncheckedUpdateManyWithoutGroupNestedInput
 }
 
 export type GroupCreateManyTeacherInput = {
@@ -895,10 +895,10 @@ export type GroupUpdateWithoutTeacherInput = {
   classroom?: Prisma.StringFieldUpdateOperationsInput | string
   capacity?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumGroupStatusFieldUpdateOperationsInput | $Enums.GroupStatus
+  assignments?: Prisma.AssignmentUpdateManyWithoutGroupNestedInput
+  enrollments?: Prisma.EnrollmentUpdateManyWithoutGroupNestedInput
   courseOffering?: Prisma.CourseOfferingUpdateOneRequiredWithoutGroupsNestedInput
   schedules?: Prisma.ScheduleUpdateManyWithoutGroupNestedInput
-  enrollments?: Prisma.EnrollmentUpdateManyWithoutGroupNestedInput
-  assignments?: Prisma.AssignmentUpdateManyWithoutGroupNestedInput
 }
 
 export type GroupUncheckedUpdateWithoutTeacherInput = {
@@ -908,9 +908,9 @@ export type GroupUncheckedUpdateWithoutTeacherInput = {
   classroom?: Prisma.StringFieldUpdateOperationsInput | string
   capacity?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumGroupStatusFieldUpdateOperationsInput | $Enums.GroupStatus
-  schedules?: Prisma.ScheduleUncheckedUpdateManyWithoutGroupNestedInput
-  enrollments?: Prisma.EnrollmentUncheckedUpdateManyWithoutGroupNestedInput
   assignments?: Prisma.AssignmentUncheckedUpdateManyWithoutGroupNestedInput
+  enrollments?: Prisma.EnrollmentUncheckedUpdateManyWithoutGroupNestedInput
+  schedules?: Prisma.ScheduleUncheckedUpdateManyWithoutGroupNestedInput
 }
 
 export type GroupUncheckedUpdateManyWithoutTeacherInput = {
@@ -936,10 +936,10 @@ export type GroupUpdateWithoutCourseOfferingInput = {
   classroom?: Prisma.StringFieldUpdateOperationsInput | string
   capacity?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumGroupStatusFieldUpdateOperationsInput | $Enums.GroupStatus
+  assignments?: Prisma.AssignmentUpdateManyWithoutGroupNestedInput
+  enrollments?: Prisma.EnrollmentUpdateManyWithoutGroupNestedInput
   teacher?: Prisma.TeacherUpdateOneRequiredWithoutGroupsNestedInput
   schedules?: Prisma.ScheduleUpdateManyWithoutGroupNestedInput
-  enrollments?: Prisma.EnrollmentUpdateManyWithoutGroupNestedInput
-  assignments?: Prisma.AssignmentUpdateManyWithoutGroupNestedInput
 }
 
 export type GroupUncheckedUpdateWithoutCourseOfferingInput = {
@@ -949,9 +949,9 @@ export type GroupUncheckedUpdateWithoutCourseOfferingInput = {
   classroom?: Prisma.StringFieldUpdateOperationsInput | string
   capacity?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumGroupStatusFieldUpdateOperationsInput | $Enums.GroupStatus
-  schedules?: Prisma.ScheduleUncheckedUpdateManyWithoutGroupNestedInput
-  enrollments?: Prisma.EnrollmentUncheckedUpdateManyWithoutGroupNestedInput
   assignments?: Prisma.AssignmentUncheckedUpdateManyWithoutGroupNestedInput
+  enrollments?: Prisma.EnrollmentUncheckedUpdateManyWithoutGroupNestedInput
+  schedules?: Prisma.ScheduleUncheckedUpdateManyWithoutGroupNestedInput
 }
 
 export type GroupUncheckedUpdateManyWithoutCourseOfferingInput = {
@@ -969,15 +969,15 @@ export type GroupUncheckedUpdateManyWithoutCourseOfferingInput = {
  */
 
 export type GroupCountOutputType = {
-  schedules: number
-  enrollments: number
   assignments: number
+  enrollments: number
+  schedules: number
 }
 
 export type GroupCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  schedules?: boolean | GroupCountOutputTypeCountSchedulesArgs
-  enrollments?: boolean | GroupCountOutputTypeCountEnrollmentsArgs
   assignments?: boolean | GroupCountOutputTypeCountAssignmentsArgs
+  enrollments?: boolean | GroupCountOutputTypeCountEnrollmentsArgs
+  schedules?: boolean | GroupCountOutputTypeCountSchedulesArgs
 }
 
 /**
@@ -993,8 +993,8 @@ export type GroupCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extens
 /**
  * GroupCountOutputType without action
  */
-export type GroupCountOutputTypeCountSchedulesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.ScheduleWhereInput
+export type GroupCountOutputTypeCountAssignmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AssignmentWhereInput
 }
 
 /**
@@ -1007,8 +1007,8 @@ export type GroupCountOutputTypeCountEnrollmentsArgs<ExtArgs extends runtime.Typ
 /**
  * GroupCountOutputType without action
  */
-export type GroupCountOutputTypeCountAssignmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.AssignmentWhereInput
+export type GroupCountOutputTypeCountSchedulesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ScheduleWhereInput
 }
 
 
@@ -1020,11 +1020,11 @@ export type GroupSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   classroom?: boolean
   capacity?: boolean
   status?: boolean
+  assignments?: boolean | Prisma.Group$assignmentsArgs<ExtArgs>
+  enrollments?: boolean | Prisma.Group$enrollmentsArgs<ExtArgs>
   courseOffering?: boolean | Prisma.CourseOfferingDefaultArgs<ExtArgs>
   teacher?: boolean | Prisma.TeacherDefaultArgs<ExtArgs>
   schedules?: boolean | Prisma.Group$schedulesArgs<ExtArgs>
-  enrollments?: boolean | Prisma.Group$enrollmentsArgs<ExtArgs>
-  assignments?: boolean | Prisma.Group$assignmentsArgs<ExtArgs>
   _count?: boolean | Prisma.GroupCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["group"]>
 
@@ -1064,11 +1064,11 @@ export type GroupSelectScalar = {
 
 export type GroupOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "courseOfferingId" | "teacherId" | "name" | "classroom" | "capacity" | "status", ExtArgs["result"]["group"]>
 export type GroupInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  assignments?: boolean | Prisma.Group$assignmentsArgs<ExtArgs>
+  enrollments?: boolean | Prisma.Group$enrollmentsArgs<ExtArgs>
   courseOffering?: boolean | Prisma.CourseOfferingDefaultArgs<ExtArgs>
   teacher?: boolean | Prisma.TeacherDefaultArgs<ExtArgs>
   schedules?: boolean | Prisma.Group$schedulesArgs<ExtArgs>
-  enrollments?: boolean | Prisma.Group$enrollmentsArgs<ExtArgs>
-  assignments?: boolean | Prisma.Group$assignmentsArgs<ExtArgs>
   _count?: boolean | Prisma.GroupCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type GroupIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1083,11 +1083,11 @@ export type GroupIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
 export type $GroupPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Group"
   objects: {
+    assignments: Prisma.$AssignmentPayload<ExtArgs>[]
+    enrollments: Prisma.$EnrollmentPayload<ExtArgs>[]
     courseOffering: Prisma.$CourseOfferingPayload<ExtArgs>
     teacher: Prisma.$TeacherPayload<ExtArgs>
     schedules: Prisma.$SchedulePayload<ExtArgs>[]
-    enrollments: Prisma.$EnrollmentPayload<ExtArgs>[]
-    assignments: Prisma.$AssignmentPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1491,11 +1491,11 @@ readonly fields: GroupFieldRefs;
  */
 export interface Prisma__GroupClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  assignments<T extends Prisma.Group$assignmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Group$assignmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  enrollments<T extends Prisma.Group$enrollmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Group$enrollmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EnrollmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   courseOffering<T extends Prisma.CourseOfferingDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CourseOfferingDefaultArgs<ExtArgs>>): Prisma.Prisma__CourseOfferingClient<runtime.Types.Result.GetResult<Prisma.$CourseOfferingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   teacher<T extends Prisma.TeacherDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TeacherDefaultArgs<ExtArgs>>): Prisma.Prisma__TeacherClient<runtime.Types.Result.GetResult<Prisma.$TeacherPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   schedules<T extends Prisma.Group$schedulesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Group$schedulesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SchedulePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  enrollments<T extends Prisma.Group$enrollmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Group$enrollmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EnrollmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  assignments<T extends Prisma.Group$assignmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Group$assignmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1933,27 +1933,27 @@ export type GroupDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Interna
 }
 
 /**
- * Group.schedules
+ * Group.assignments
  */
-export type Group$schedulesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Group$assignmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the Schedule
+   * Select specific fields to fetch from the Assignment
    */
-  select?: Prisma.ScheduleSelect<ExtArgs> | null
+  select?: Prisma.AssignmentSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the Schedule
+   * Omit specific fields from the Assignment
    */
-  omit?: Prisma.ScheduleOmit<ExtArgs> | null
+  omit?: Prisma.AssignmentOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.ScheduleInclude<ExtArgs> | null
-  where?: Prisma.ScheduleWhereInput
-  orderBy?: Prisma.ScheduleOrderByWithRelationInput | Prisma.ScheduleOrderByWithRelationInput[]
-  cursor?: Prisma.ScheduleWhereUniqueInput
+  include?: Prisma.AssignmentInclude<ExtArgs> | null
+  where?: Prisma.AssignmentWhereInput
+  orderBy?: Prisma.AssignmentOrderByWithRelationInput | Prisma.AssignmentOrderByWithRelationInput[]
+  cursor?: Prisma.AssignmentWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.ScheduleScalarFieldEnum | Prisma.ScheduleScalarFieldEnum[]
+  distinct?: Prisma.AssignmentScalarFieldEnum | Prisma.AssignmentScalarFieldEnum[]
 }
 
 /**
@@ -1981,27 +1981,27 @@ export type Group$enrollmentsArgs<ExtArgs extends runtime.Types.Extensions.Inter
 }
 
 /**
- * Group.assignments
+ * Group.schedules
  */
-export type Group$assignmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Group$schedulesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the Assignment
+   * Select specific fields to fetch from the Schedule
    */
-  select?: Prisma.AssignmentSelect<ExtArgs> | null
+  select?: Prisma.ScheduleSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the Assignment
+   * Omit specific fields from the Schedule
    */
-  omit?: Prisma.AssignmentOmit<ExtArgs> | null
+  omit?: Prisma.ScheduleOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.AssignmentInclude<ExtArgs> | null
-  where?: Prisma.AssignmentWhereInput
-  orderBy?: Prisma.AssignmentOrderByWithRelationInput | Prisma.AssignmentOrderByWithRelationInput[]
-  cursor?: Prisma.AssignmentWhereUniqueInput
+  include?: Prisma.ScheduleInclude<ExtArgs> | null
+  where?: Prisma.ScheduleWhereInput
+  orderBy?: Prisma.ScheduleOrderByWithRelationInput | Prisma.ScheduleOrderByWithRelationInput[]
+  cursor?: Prisma.ScheduleWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.AssignmentScalarFieldEnum | Prisma.AssignmentScalarFieldEnum[]
+  distinct?: Prisma.ScheduleScalarFieldEnum | Prisma.ScheduleScalarFieldEnum[]
 }
 
 /**

@@ -7,6 +7,223 @@ datasource db {
   provider = "postgresql"
 }
 
+model Role {
+  id    Int    @id @default(autoincrement())
+  name  String @unique
+  users User[]
+}
+
+model User {
+  id               Int        @id @default(autoincrement())
+  email            String     @unique
+  password         String
+  status           UserStatus @default(PENDING)
+  roleId           Int
+  createdAt        DateTime   @default(now())
+  updatedAt        DateTime   @updatedAt
+  verifiedPayments Payment[]  @relation("PaymentVerifier")
+  student          Student?
+  teacher          Teacher?
+  role             Role       @relation(fields: [roleId], references: [id])
+
+  @@index([roleId])
+  @@index([status])
+}
+
+model Student {
+  id                   Int                   @id @default(autoincrement())
+  userId               Int                   @unique
+  enrollmentCode       String                @unique
+  guardianName         String
+  guardianPhone        String
+  createdAt            DateTime              @default(now())
+  updatedAt            DateTime              @updatedAt
+  enrollments          Enrollment[]
+  financialObligations FinancialObligation[]
+  user                 User                  @relation(fields: [userId], references: [id])
+  submissions          Submission[]
+}
+
+model Teacher {
+  id        Int      @id @default(autoincrement())
+  userId    Int      @unique
+  specialty String
+  hireDate  DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  groups    Group[]
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+model AcademicPeriod {
+  id                   Int                   @id @default(autoincrement())
+  name                 String                @unique
+  startDate            DateTime
+  endDate              DateTime
+  semesterType         SemesterType
+  maxCredits           Int
+  regularFee           Decimal               @db.Decimal(10, 2)
+  status               AcademicPeriodStatus  @default(PLANNED)
+  courseOfferings      CourseOffering[]
+  enrollmentFees       EnrollmentFee[]
+  financialObligations FinancialObligation[]
+
+  @@index([status])
+  @@index([semesterType])
+}
+
+model Subject {
+  id              Int              @id @default(autoincrement())
+  code            String           @unique
+  name            String
+  credits         Int
+  semesterType    SemesterType
+  enrollmentCost  Decimal          @db.Decimal(10, 2)
+  monthlyCost     Decimal          @db.Decimal(10, 2)
+  active          Boolean          @default(true)
+  courseOfferings CourseOffering[]
+
+  @@index([semesterType])
+  @@index([active])
+}
+
+model CourseOffering {
+  id               Int                  @id @default(autoincrement())
+  subjectId        Int
+  academicPeriodId Int
+  type             CourseOfferingType
+  status           CourseOfferingStatus @default(OPEN)
+  academicPeriod   AcademicPeriod       @relation(fields: [academicPeriodId], references: [id])
+  subject          Subject              @relation(fields: [subjectId], references: [id])
+  groups           Group[]
+
+  @@unique([subjectId, academicPeriodId])
+  @@index([academicPeriodId])
+  @@index([subjectId])
+}
+
+model Group {
+  id               Int            @id @default(autoincrement())
+  courseOfferingId Int
+  teacherId        Int
+  name             String
+  classroom        String
+  capacity         Int
+  status           GroupStatus    @default(OPEN)
+  assignments      Assignment[]
+  enrollments      Enrollment[]
+  courseOffering   CourseOffering @relation(fields: [courseOfferingId], references: [id])
+  teacher          Teacher        @relation(fields: [teacherId], references: [id])
+  schedules        Schedule[]
+
+  @@unique([courseOfferingId, name])
+  @@index([teacherId])
+  @@index([status])
+}
+
+model Schedule {
+  id        Int    @id @default(autoincrement())
+  groupId   Int
+  dayOfWeek Int
+  startTime String
+  endTime   String
+  group     Group  @relation(fields: [groupId], references: [id])
+
+  @@index([groupId])
+}
+
+model Enrollment {
+  id          Int               @id @default(autoincrement())
+  studentId   Int
+  groupId     Int
+  status      EnrollmentStatus  @default(IN_PROGRESS)
+  grade       Decimal?          @db.Decimal(5, 2)
+  result      EnrollmentResult?
+  enrolledAt  DateTime          @default(now())
+  completedAt DateTime?
+  group       Group             @relation(fields: [groupId], references: [id])
+  student     Student           @relation(fields: [studentId], references: [id])
+
+  @@index([studentId])
+  @@index([groupId])
+  @@index([status])
+}
+
+model EnrollmentFee {
+  id               Int            @id @default(autoincrement())
+  academicPeriodId Int
+  attemptNumber    Int
+  pricePerCredit   Decimal        @db.Decimal(10, 2)
+  academicPeriod   AcademicPeriod @relation(fields: [academicPeriodId], references: [id])
+
+  @@unique([academicPeriodId, attemptNumber])
+}
+
+model Assignment {
+  id          Int          @id @default(autoincrement())
+  groupId     Int
+  title       String
+  description String
+  dueDate     DateTime
+  createdAt   DateTime     @default(now())
+  group       Group        @relation(fields: [groupId], references: [id])
+  submissions Submission[]
+
+  @@index([groupId])
+}
+
+model Submission {
+  id           Int        @id @default(autoincrement())
+  assignmentId Int
+  studentId    Int
+  content      String?
+  fileUrl      String?
+  grade        Decimal?   @db.Decimal(5, 2)
+  submittedAt  DateTime   @default(now())
+  assignment   Assignment @relation(fields: [assignmentId], references: [id])
+  student      Student    @relation(fields: [studentId], references: [id])
+
+  @@unique([assignmentId, studentId])
+  @@index([studentId])
+}
+
+model FinancialObligation {
+  id               Int                       @id @default(autoincrement())
+  studentId        Int
+  academicPeriodId Int
+  type             FinancialObligationType
+  description      String
+  amount           Decimal                   @db.Decimal(10, 2)
+  dueDate          DateTime
+  status           FinancialObligationStatus @default(PENDING)
+  createdAt        DateTime                  @default(now())
+  academicPeriod   AcademicPeriod            @relation(fields: [academicPeriodId], references: [id])
+  student          Student                   @relation(fields: [studentId], references: [id])
+  payments         Payment[]
+
+  @@index([studentId])
+  @@index([academicPeriodId])
+  @@index([status])
+  @@index([dueDate])
+}
+
+model Payment {
+  id                    Int                 @id @default(autoincrement())
+  financialObligationId Int
+  amount                Decimal             @db.Decimal(10, 2)
+  method                PaymentMethod
+  status                PaymentStatus       @default(PENDING)
+  verifiedById          Int?
+  verifiedAt            DateTime?
+  createdAt             DateTime            @default(now())
+  financialObligation   FinancialObligation @relation(fields: [financialObligationId], references: [id])
+  verifiedBy            User?               @relation("PaymentVerifier", fields: [verifiedById], references: [id])
+
+  @@index([financialObligationId])
+  @@index([verifiedById])
+  @@index([status])
+}
+
 enum UserStatus {
   PENDING
   ACTIVE
@@ -77,235 +294,4 @@ enum PaymentStatus {
   PENDING
   APPROVED
   REJECTED
-}
-
-model Role {
-  id    Int    @id @default(autoincrement())
-  name  String @unique
-  users User[]
-}
-
-model User {
-  id        Int        @id @default(autoincrement())
-  email     String     @unique
-  password  String
-  status    UserStatus @default(PENDING)
-  roleId    Int
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-
-  role             Role      @relation(fields: [roleId], references: [id])
-  student          Student?
-  teacher          Teacher?
-  verifiedPayments Payment[] @relation("PaymentVerifier")
-
-  @@index([roleId])
-  @@index([status])
-}
-
-model Student {
-  id             Int      @id @default(autoincrement())
-  userId         Int      @unique
-  enrollmentCode String   @unique
-  guardianName   String
-  guardianPhone  String
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-
-  user                 User                  @relation(fields: [userId], references: [id])
-  enrollments          Enrollment[]
-  submissions          Submission[]
-  financialObligations FinancialObligation[]
-}
-
-model Teacher {
-  id        Int      @id @default(autoincrement())
-  userId    Int      @unique
-  specialty String
-  hireDate  DateTime
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  user   User    @relation(fields: [userId], references: [id])
-  groups Group[]
-}
-
-model AcademicPeriod {
-  id           Int                  @id @default(autoincrement())
-  name         String               @unique
-  startDate    DateTime
-  endDate      DateTime
-  semesterType SemesterType
-  maxCredits   Int
-  regularFee   Decimal              @db.Decimal(10, 2)
-  status       AcademicPeriodStatus @default(PLANNED)
-
-  courseOfferings      CourseOffering[]
-  enrollmentFees       EnrollmentFee[]
-  financialObligations FinancialObligation[]
-
-  @@index([status])
-  @@index([semesterType])
-}
-
-model Subject {
-  id             Int          @id @default(autoincrement())
-  code           String       @unique
-  name           String
-  credits        Int
-  semesterType   SemesterType
-  enrollmentCost Decimal      @db.Decimal(10, 2)
-  monthlyCost    Decimal      @db.Decimal(10, 2)
-  active         Boolean      @default(true)
-
-  courseOfferings CourseOffering[]
-
-  @@index([semesterType])
-  @@index([active])
-}
-
-model CourseOffering {
-  id               Int                  @id @default(autoincrement())
-  subjectId        Int
-  academicPeriodId Int
-  type             CourseOfferingType
-  status           CourseOfferingStatus @default(OPEN)
-
-  subject        Subject        @relation(fields: [subjectId], references: [id])
-  academicPeriod AcademicPeriod @relation(fields: [academicPeriodId], references: [id])
-  groups         Group[]
-
-  @@unique([subjectId, academicPeriodId])
-  @@index([academicPeriodId])
-  @@index([subjectId])
-}
-
-model Group {
-  id               Int         @id @default(autoincrement())
-  courseOfferingId Int
-  teacherId        Int
-  name             String
-  classroom        String
-  capacity         Int
-  status           GroupStatus @default(OPEN)
-
-  courseOffering CourseOffering @relation(fields: [courseOfferingId], references: [id])
-  teacher        Teacher        @relation(fields: [teacherId], references: [id])
-  schedules      Schedule[]
-  enrollments    Enrollment[]
-  assignments    Assignment[]
-
-  @@unique([courseOfferingId, name])
-  @@index([teacherId])
-  @@index([status])
-}
-
-model Schedule {
-  id        Int    @id @default(autoincrement())
-  groupId   Int
-  dayOfWeek Int
-  startTime String
-  endTime   String
-
-  group Group @relation(fields: [groupId], references: [id])
-
-  @@index([groupId])
-}
-
-model Enrollment {
-  id          Int               @id @default(autoincrement())
-  studentId   Int
-  groupId     Int
-  status      EnrollmentStatus  @default(IN_PROGRESS)
-  grade       Decimal?          @db.Decimal(5, 2)
-  result      EnrollmentResult?
-  enrolledAt  DateTime          @default(now())
-  completedAt DateTime?
-
-  student Student @relation(fields: [studentId], references: [id])
-  group   Group   @relation(fields: [groupId], references: [id])
-
-  @@index([studentId])
-  @@index([groupId])
-  @@index([status])
-}
-
-model EnrollmentFee {
-  id               Int     @id @default(autoincrement())
-  academicPeriodId Int
-  attemptNumber    Int
-  pricePerCredit   Decimal @db.Decimal(10, 2)
-
-  academicPeriod AcademicPeriod @relation(fields: [academicPeriodId], references: [id])
-
-  @@unique([academicPeriodId, attemptNumber])
-}
-
-model Assignment {
-  id          Int      @id @default(autoincrement())
-  groupId     Int
-  title       String
-  description String
-  dueDate     DateTime
-  createdAt   DateTime @default(now())
-
-  group       Group        @relation(fields: [groupId], references: [id])
-  submissions Submission[]
-
-  @@index([groupId])
-}
-
-model Submission {
-  id           Int      @id @default(autoincrement())
-  assignmentId Int
-  studentId    Int
-  content      String?
-  fileUrl      String?
-  grade        Decimal? @db.Decimal(5, 2)
-  submittedAt  DateTime @default(now())
-
-  assignment Assignment @relation(fields: [assignmentId], references: [id])
-  student    Student    @relation(fields: [studentId], references: [id])
-
-  @@unique([assignmentId, studentId])
-  @@index([studentId])
-}
-
-model FinancialObligation {
-  id               Int                       @id @default(autoincrement())
-  studentId        Int
-  academicPeriodId Int
-  type             FinancialObligationType
-  description      String
-  amount           Decimal                   @db.Decimal(10, 2)
-  dueDate          DateTime
-  status           FinancialObligationStatus @default(PENDING)
-  createdAt        DateTime                  @default(now())
-
-  student        Student        @relation(fields: [studentId], references: [id])
-  academicPeriod AcademicPeriod @relation(fields: [academicPeriodId], references: [id])
-  payments       Payment[]
-
-  @@index([studentId])
-  @@index([academicPeriodId])
-  @@index([status])
-  @@index([dueDate])
-}
-
-model Payment {
-  id                    Int           @id @default(autoincrement())
-  financialObligationId Int
-  amount                Decimal       @db.Decimal(10, 2)
-  method                PaymentMethod
-  status                PaymentStatus @default(PENDING)
-  verifiedById          Int?
-  verifiedAt            DateTime?
-  createdAt             DateTime      @default(now())
-
-  financialObligation FinancialObligation @relation(fields: [financialObligationId], references: [id])
-  verifiedBy          User?               @relation("PaymentVerifier", fields: [verifiedById], references: [id])
-
-  @@index([financialObligationId])
-  @@index([verifiedById])
-  @@index([status])
 }

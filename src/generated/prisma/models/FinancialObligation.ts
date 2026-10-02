@@ -260,8 +260,8 @@ export type FinancialObligationWhereInput = {
   dueDate?: Prisma.DateTimeFilter<"FinancialObligation"> | Date | string
   status?: Prisma.EnumFinancialObligationStatusFilter<"FinancialObligation"> | $Enums.FinancialObligationStatus
   createdAt?: Prisma.DateTimeFilter<"FinancialObligation"> | Date | string
-  student?: Prisma.XOR<Prisma.StudentScalarRelationFilter, Prisma.StudentWhereInput>
   academicPeriod?: Prisma.XOR<Prisma.AcademicPeriodScalarRelationFilter, Prisma.AcademicPeriodWhereInput>
+  student?: Prisma.XOR<Prisma.StudentScalarRelationFilter, Prisma.StudentWhereInput>
   payments?: Prisma.PaymentListRelationFilter
 }
 
@@ -275,8 +275,8 @@ export type FinancialObligationOrderByWithRelationInput = {
   dueDate?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  student?: Prisma.StudentOrderByWithRelationInput
   academicPeriod?: Prisma.AcademicPeriodOrderByWithRelationInput
+  student?: Prisma.StudentOrderByWithRelationInput
   payments?: Prisma.PaymentOrderByRelationAggregateInput
 }
 
@@ -293,8 +293,8 @@ export type FinancialObligationWhereUniqueInput = Prisma.AtLeast<{
   dueDate?: Prisma.DateTimeFilter<"FinancialObligation"> | Date | string
   status?: Prisma.EnumFinancialObligationStatusFilter<"FinancialObligation"> | $Enums.FinancialObligationStatus
   createdAt?: Prisma.DateTimeFilter<"FinancialObligation"> | Date | string
-  student?: Prisma.XOR<Prisma.StudentScalarRelationFilter, Prisma.StudentWhereInput>
   academicPeriod?: Prisma.XOR<Prisma.AcademicPeriodScalarRelationFilter, Prisma.AcademicPeriodWhereInput>
+  student?: Prisma.XOR<Prisma.StudentScalarRelationFilter, Prisma.StudentWhereInput>
   payments?: Prisma.PaymentListRelationFilter
 }, "id">
 
@@ -337,8 +337,8 @@ export type FinancialObligationCreateInput = {
   dueDate: Date | string
   status?: $Enums.FinancialObligationStatus
   createdAt?: Date | string
-  student: Prisma.StudentCreateNestedOneWithoutFinancialObligationsInput
   academicPeriod: Prisma.AcademicPeriodCreateNestedOneWithoutFinancialObligationsInput
+  student: Prisma.StudentCreateNestedOneWithoutFinancialObligationsInput
   payments?: Prisma.PaymentCreateNestedManyWithoutFinancialObligationInput
 }
 
@@ -362,8 +362,8 @@ export type FinancialObligationUpdateInput = {
   dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.EnumFinancialObligationStatusFieldUpdateOperationsInput | $Enums.FinancialObligationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  student?: Prisma.StudentUpdateOneRequiredWithoutFinancialObligationsNestedInput
   academicPeriod?: Prisma.AcademicPeriodUpdateOneRequiredWithoutFinancialObligationsNestedInput
+  student?: Prisma.StudentUpdateOneRequiredWithoutFinancialObligationsNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutFinancialObligationNestedInput
 }
 
@@ -704,8 +704,8 @@ export type FinancialObligationCreateWithoutPaymentsInput = {
   dueDate: Date | string
   status?: $Enums.FinancialObligationStatus
   createdAt?: Date | string
-  student: Prisma.StudentCreateNestedOneWithoutFinancialObligationsInput
   academicPeriod: Prisma.AcademicPeriodCreateNestedOneWithoutFinancialObligationsInput
+  student: Prisma.StudentCreateNestedOneWithoutFinancialObligationsInput
 }
 
 export type FinancialObligationUncheckedCreateWithoutPaymentsInput = {
@@ -743,8 +743,8 @@ export type FinancialObligationUpdateWithoutPaymentsInput = {
   dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.EnumFinancialObligationStatusFieldUpdateOperationsInput | $Enums.FinancialObligationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  student?: Prisma.StudentUpdateOneRequiredWithoutFinancialObligationsNestedInput
   academicPeriod?: Prisma.AcademicPeriodUpdateOneRequiredWithoutFinancialObligationsNestedInput
+  student?: Prisma.StudentUpdateOneRequiredWithoutFinancialObligationsNestedInput
 }
 
 export type FinancialObligationUncheckedUpdateWithoutPaymentsInput = {
@@ -890,8 +890,8 @@ export type FinancialObligationSelect<ExtArgs extends runtime.Types.Extensions.I
   dueDate?: boolean
   status?: boolean
   createdAt?: boolean
-  student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
   academicPeriod?: boolean | Prisma.AcademicPeriodDefaultArgs<ExtArgs>
+  student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
   payments?: boolean | Prisma.FinancialObligation$paymentsArgs<ExtArgs>
   _count?: boolean | Prisma.FinancialObligationCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["financialObligation"]>
@@ -906,8 +906,8 @@ export type FinancialObligationSelectCreateManyAndReturn<ExtArgs extends runtime
   dueDate?: boolean
   status?: boolean
   createdAt?: boolean
-  student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
   academicPeriod?: boolean | Prisma.AcademicPeriodDefaultArgs<ExtArgs>
+  student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["financialObligation"]>
 
 export type FinancialObligationSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -920,8 +920,8 @@ export type FinancialObligationSelectUpdateManyAndReturn<ExtArgs extends runtime
   dueDate?: boolean
   status?: boolean
   createdAt?: boolean
-  student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
   academicPeriod?: boolean | Prisma.AcademicPeriodDefaultArgs<ExtArgs>
+  student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["financialObligation"]>
 
 export type FinancialObligationSelectScalar = {
@@ -938,25 +938,25 @@ export type FinancialObligationSelectScalar = {
 
 export type FinancialObligationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "studentId" | "academicPeriodId" | "type" | "description" | "amount" | "dueDate" | "status" | "createdAt", ExtArgs["result"]["financialObligation"]>
 export type FinancialObligationInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
   academicPeriod?: boolean | Prisma.AcademicPeriodDefaultArgs<ExtArgs>
+  student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
   payments?: boolean | Prisma.FinancialObligation$paymentsArgs<ExtArgs>
   _count?: boolean | Prisma.FinancialObligationCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type FinancialObligationIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
   academicPeriod?: boolean | Prisma.AcademicPeriodDefaultArgs<ExtArgs>
+  student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
 }
 export type FinancialObligationIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
   academicPeriod?: boolean | Prisma.AcademicPeriodDefaultArgs<ExtArgs>
+  student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
 }
 
 export type $FinancialObligationPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "FinancialObligation"
   objects: {
-    student: Prisma.$StudentPayload<ExtArgs>
     academicPeriod: Prisma.$AcademicPeriodPayload<ExtArgs>
+    student: Prisma.$StudentPayload<ExtArgs>
     payments: Prisma.$PaymentPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1363,8 +1363,8 @@ readonly fields: FinancialObligationFieldRefs;
  */
 export interface Prisma__FinancialObligationClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  student<T extends Prisma.StudentDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.StudentDefaultArgs<ExtArgs>>): Prisma.Prisma__StudentClient<runtime.Types.Result.GetResult<Prisma.$StudentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   academicPeriod<T extends Prisma.AcademicPeriodDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AcademicPeriodDefaultArgs<ExtArgs>>): Prisma.Prisma__AcademicPeriodClient<runtime.Types.Result.GetResult<Prisma.$AcademicPeriodPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  student<T extends Prisma.StudentDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.StudentDefaultArgs<ExtArgs>>): Prisma.Prisma__StudentClient<runtime.Types.Result.GetResult<Prisma.$StudentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   payments<T extends Prisma.FinancialObligation$paymentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.FinancialObligation$paymentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.

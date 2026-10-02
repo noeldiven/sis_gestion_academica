@@ -224,8 +224,8 @@ export type CourseOfferingWhereInput = {
   academicPeriodId?: Prisma.IntFilter<"CourseOffering"> | number
   type?: Prisma.EnumCourseOfferingTypeFilter<"CourseOffering"> | $Enums.CourseOfferingType
   status?: Prisma.EnumCourseOfferingStatusFilter<"CourseOffering"> | $Enums.CourseOfferingStatus
-  subject?: Prisma.XOR<Prisma.SubjectScalarRelationFilter, Prisma.SubjectWhereInput>
   academicPeriod?: Prisma.XOR<Prisma.AcademicPeriodScalarRelationFilter, Prisma.AcademicPeriodWhereInput>
+  subject?: Prisma.XOR<Prisma.SubjectScalarRelationFilter, Prisma.SubjectWhereInput>
   groups?: Prisma.GroupListRelationFilter
 }
 
@@ -235,8 +235,8 @@ export type CourseOfferingOrderByWithRelationInput = {
   academicPeriodId?: Prisma.SortOrder
   type?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  subject?: Prisma.SubjectOrderByWithRelationInput
   academicPeriod?: Prisma.AcademicPeriodOrderByWithRelationInput
+  subject?: Prisma.SubjectOrderByWithRelationInput
   groups?: Prisma.GroupOrderByRelationAggregateInput
 }
 
@@ -250,8 +250,8 @@ export type CourseOfferingWhereUniqueInput = Prisma.AtLeast<{
   academicPeriodId?: Prisma.IntFilter<"CourseOffering"> | number
   type?: Prisma.EnumCourseOfferingTypeFilter<"CourseOffering"> | $Enums.CourseOfferingType
   status?: Prisma.EnumCourseOfferingStatusFilter<"CourseOffering"> | $Enums.CourseOfferingStatus
-  subject?: Prisma.XOR<Prisma.SubjectScalarRelationFilter, Prisma.SubjectWhereInput>
   academicPeriod?: Prisma.XOR<Prisma.AcademicPeriodScalarRelationFilter, Prisma.AcademicPeriodWhereInput>
+  subject?: Prisma.XOR<Prisma.SubjectScalarRelationFilter, Prisma.SubjectWhereInput>
   groups?: Prisma.GroupListRelationFilter
 }, "id" | "subjectId_academicPeriodId">
 
@@ -282,8 +282,8 @@ export type CourseOfferingScalarWhereWithAggregatesInput = {
 export type CourseOfferingCreateInput = {
   type: $Enums.CourseOfferingType
   status?: $Enums.CourseOfferingStatus
-  subject: Prisma.SubjectCreateNestedOneWithoutCourseOfferingsInput
   academicPeriod: Prisma.AcademicPeriodCreateNestedOneWithoutCourseOfferingsInput
+  subject: Prisma.SubjectCreateNestedOneWithoutCourseOfferingsInput
   groups?: Prisma.GroupCreateNestedManyWithoutCourseOfferingInput
 }
 
@@ -299,8 +299,8 @@ export type CourseOfferingUncheckedCreateInput = {
 export type CourseOfferingUpdateInput = {
   type?: Prisma.EnumCourseOfferingTypeFieldUpdateOperationsInput | $Enums.CourseOfferingType
   status?: Prisma.EnumCourseOfferingStatusFieldUpdateOperationsInput | $Enums.CourseOfferingStatus
-  subject?: Prisma.SubjectUpdateOneRequiredWithoutCourseOfferingsNestedInput
   academicPeriod?: Prisma.AcademicPeriodUpdateOneRequiredWithoutCourseOfferingsNestedInput
+  subject?: Prisma.SubjectUpdateOneRequiredWithoutCourseOfferingsNestedInput
   groups?: Prisma.GroupUpdateManyWithoutCourseOfferingNestedInput
 }
 
@@ -592,8 +592,8 @@ export type CourseOfferingUpdateManyWithWhereWithoutSubjectInput = {
 export type CourseOfferingCreateWithoutGroupsInput = {
   type: $Enums.CourseOfferingType
   status?: $Enums.CourseOfferingStatus
-  subject: Prisma.SubjectCreateNestedOneWithoutCourseOfferingsInput
   academicPeriod: Prisma.AcademicPeriodCreateNestedOneWithoutCourseOfferingsInput
+  subject: Prisma.SubjectCreateNestedOneWithoutCourseOfferingsInput
 }
 
 export type CourseOfferingUncheckedCreateWithoutGroupsInput = {
@@ -623,8 +623,8 @@ export type CourseOfferingUpdateToOneWithWhereWithoutGroupsInput = {
 export type CourseOfferingUpdateWithoutGroupsInput = {
   type?: Prisma.EnumCourseOfferingTypeFieldUpdateOperationsInput | $Enums.CourseOfferingType
   status?: Prisma.EnumCourseOfferingStatusFieldUpdateOperationsInput | $Enums.CourseOfferingStatus
-  subject?: Prisma.SubjectUpdateOneRequiredWithoutCourseOfferingsNestedInput
   academicPeriod?: Prisma.AcademicPeriodUpdateOneRequiredWithoutCourseOfferingsNestedInput
+  subject?: Prisma.SubjectUpdateOneRequiredWithoutCourseOfferingsNestedInput
 }
 
 export type CourseOfferingUncheckedUpdateWithoutGroupsInput = {
@@ -730,8 +730,8 @@ export type CourseOfferingSelect<ExtArgs extends runtime.Types.Extensions.Intern
   academicPeriodId?: boolean
   type?: boolean
   status?: boolean
-  subject?: boolean | Prisma.SubjectDefaultArgs<ExtArgs>
   academicPeriod?: boolean | Prisma.AcademicPeriodDefaultArgs<ExtArgs>
+  subject?: boolean | Prisma.SubjectDefaultArgs<ExtArgs>
   groups?: boolean | Prisma.CourseOffering$groupsArgs<ExtArgs>
   _count?: boolean | Prisma.CourseOfferingCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["courseOffering"]>
@@ -742,8 +742,8 @@ export type CourseOfferingSelectCreateManyAndReturn<ExtArgs extends runtime.Type
   academicPeriodId?: boolean
   type?: boolean
   status?: boolean
-  subject?: boolean | Prisma.SubjectDefaultArgs<ExtArgs>
   academicPeriod?: boolean | Prisma.AcademicPeriodDefaultArgs<ExtArgs>
+  subject?: boolean | Prisma.SubjectDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["courseOffering"]>
 
 export type CourseOfferingSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -752,8 +752,8 @@ export type CourseOfferingSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
   academicPeriodId?: boolean
   type?: boolean
   status?: boolean
-  subject?: boolean | Prisma.SubjectDefaultArgs<ExtArgs>
   academicPeriod?: boolean | Prisma.AcademicPeriodDefaultArgs<ExtArgs>
+  subject?: boolean | Prisma.SubjectDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["courseOffering"]>
 
 export type CourseOfferingSelectScalar = {
@@ -766,25 +766,25 @@ export type CourseOfferingSelectScalar = {
 
 export type CourseOfferingOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "subjectId" | "academicPeriodId" | "type" | "status", ExtArgs["result"]["courseOffering"]>
 export type CourseOfferingInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  subject?: boolean | Prisma.SubjectDefaultArgs<ExtArgs>
   academicPeriod?: boolean | Prisma.AcademicPeriodDefaultArgs<ExtArgs>
+  subject?: boolean | Prisma.SubjectDefaultArgs<ExtArgs>
   groups?: boolean | Prisma.CourseOffering$groupsArgs<ExtArgs>
   _count?: boolean | Prisma.CourseOfferingCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type CourseOfferingIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  subject?: boolean | Prisma.SubjectDefaultArgs<ExtArgs>
   academicPeriod?: boolean | Prisma.AcademicPeriodDefaultArgs<ExtArgs>
+  subject?: boolean | Prisma.SubjectDefaultArgs<ExtArgs>
 }
 export type CourseOfferingIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  subject?: boolean | Prisma.SubjectDefaultArgs<ExtArgs>
   academicPeriod?: boolean | Prisma.AcademicPeriodDefaultArgs<ExtArgs>
+  subject?: boolean | Prisma.SubjectDefaultArgs<ExtArgs>
 }
 
 export type $CourseOfferingPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "CourseOffering"
   objects: {
-    subject: Prisma.$SubjectPayload<ExtArgs>
     academicPeriod: Prisma.$AcademicPeriodPayload<ExtArgs>
+    subject: Prisma.$SubjectPayload<ExtArgs>
     groups: Prisma.$GroupPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1187,8 +1187,8 @@ readonly fields: CourseOfferingFieldRefs;
  */
 export interface Prisma__CourseOfferingClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  subject<T extends Prisma.SubjectDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SubjectDefaultArgs<ExtArgs>>): Prisma.Prisma__SubjectClient<runtime.Types.Result.GetResult<Prisma.$SubjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   academicPeriod<T extends Prisma.AcademicPeriodDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AcademicPeriodDefaultArgs<ExtArgs>>): Prisma.Prisma__AcademicPeriodClient<runtime.Types.Result.GetResult<Prisma.$AcademicPeriodPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  subject<T extends Prisma.SubjectDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SubjectDefaultArgs<ExtArgs>>): Prisma.Prisma__SubjectClient<runtime.Types.Result.GetResult<Prisma.$SubjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   groups<T extends Prisma.CourseOffering$groupsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CourseOffering$groupsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$GroupPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
