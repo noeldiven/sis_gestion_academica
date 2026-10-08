@@ -28,7 +28,7 @@ interface AuthenticatedRequest extends Request {
 }
 
 @ApiTags('Users')
-@ApiBearerAuth()
+@ApiBearerAuth('access-token')
 @Controller('users')
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class UsersController {
