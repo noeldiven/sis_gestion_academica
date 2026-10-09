@@ -22,7 +22,7 @@ import { RolesGuard } from '../auth/guards/roles.guard.js';
 import { Roles } from '../auth/decorators/roles.decorator.js';
 
 @ApiTags('Enrollments')
-@ApiBearerAuth()
+@ApiBearerAuth('access-token')
 @Controller('enrollments')
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class EnrollmentsController {

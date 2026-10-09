@@ -33,7 +33,7 @@ interface AuthenticatedRequest extends Request {
 }
 
 @ApiTags('Submissions')
-@ApiBearerAuth()
+@ApiBearerAuth('access-token')
 @Controller('submissions')
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class SubmissionsController {

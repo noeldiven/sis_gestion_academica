@@ -21,7 +21,7 @@ import { CreateGroupDto } from './dto/create-group.dto.js';
 import { GroupsService } from './groups.service.js';
 
 @ApiTags('Groups')
-@ApiBearerAuth()
+@ApiBearerAuth('access-token')
 @Controller('groups')
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class GroupsController {

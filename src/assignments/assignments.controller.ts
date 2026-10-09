@@ -31,7 +31,7 @@ interface AuthenticatedRequest extends Request {
 }
 
 @ApiTags('Assignments')
-@ApiBearerAuth()
+@ApiBearerAuth('access-token')
 @Controller('assignments')
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class AssignmentsController {

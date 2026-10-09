@@ -21,7 +21,7 @@ import { CreateAcademicPeriodDto } from './dto/create-academic-period.dto.js';
 import { AcademicPeriodsService } from './academic-periods.service.js';
 
 @ApiTags('Academic Periods')
-@ApiBearerAuth()
+@ApiBearerAuth('access-token')
 @Controller('academic-periods')
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class AcademicPeriodsController {

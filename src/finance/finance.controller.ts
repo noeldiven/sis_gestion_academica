@@ -23,7 +23,7 @@ import { CreateFinancialObligationDto } from './dto/create-financial-obligation.
 import { CreatePaymentDto } from './dto/create-payment.dto.js';
 
 @ApiTags('Finance')
-@ApiBearerAuth()
+@ApiBearerAuth('access-token')
 @Controller('finance')
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class FinanceController {

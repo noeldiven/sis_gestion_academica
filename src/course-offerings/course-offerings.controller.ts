@@ -21,7 +21,7 @@ import { CreateCourseOfferingDto } from './dto/create-course-offering.dto.js';
 import { CourseOfferingsService } from './course-offerings.service.js';
 
 @ApiTags('Course Offerings')
-@ApiBearerAuth()
+@ApiBearerAuth('access-token')
 @Controller('course-offerings')
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class CourseOfferingsController {

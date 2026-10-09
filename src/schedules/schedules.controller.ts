@@ -20,7 +20,7 @@ import { CreateScheduleDto } from './dto/create-schedule.dto.js';
 import { SchedulesService } from './schedules.service.js';
 
 @ApiTags('Schedules')
-@ApiBearerAuth()
+@ApiBearerAuth('access-token')
 @Controller('schedules')
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class SchedulesController {
