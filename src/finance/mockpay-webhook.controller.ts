@@ -1,4 +1,3 @@
-
 import {
   BadRequestException,
   Body,
@@ -7,7 +6,11 @@ import {
   HttpStatus,
   Post,
 } from '@nestjs/common';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBody,
+  ApiOperation,
+  ApiTags,
+} from '@nestjs/swagger';
 import { FinanceService } from './finance.service.js';
 
 interface MockPayWebhookPayload {
@@ -20,6 +23,7 @@ interface MockPayWebhookPayload {
   metadata: {
     order_id: string;
   };
+  created_at?: string;
 }
 
 @ApiTags('MockPay Webhook')
@@ -36,7 +40,67 @@ export class MockPayWebhookController {
     description:
       'Verifica la transacción y actualiza el pago correspondiente en SGAF.',
   })
-  async receiveWebhook(@Body() body: MockPayWebhookPayload) {
+  @ApiBody({
+    description: 'Notificación enviada por MockPay al cambiar el estado de una transacción.',
+    required: true,
+    schema: {
+      type: 'object',
+      required: [
+        'event',
+        'id',
+        'amount',
+        'currency',
+        'status',
+        'metadata',
+      ],
+      properties: {
+        event: {
+          type: 'string',
+          enum: ['payment.succeeded', 'payment.failed'],
+          example: 'payment.succeeded',
+        },
+        id: {
+          type: 'string',
+          example: '50597321-e36f-452b-92cb-e5081d5e63a2',
+        },
+        amount: {
+          type: 'number',
+          example: 150,
+        },
+        currency: {
+          type: 'string',
+          example: 'USD',
+        },
+        status: {
+          type: 'string',
+          enum: ['SUCCEEDED', 'FAILED'],
+          example: 'SUCCEEDED',
+        },
+        failure_reason: {
+          type: 'string',
+          nullable: true,
+          example: null,
+        },
+        metadata: {
+          type: 'object',
+          required: ['order_id'],
+          properties: {
+            order_id: {
+              type: 'string',
+              example: '5',
+            },
+          },
+        },
+        created_at: {
+          type: 'string',
+          example: '2026-10-09T16:00:00.000Z',
+        },
+      },
+    },
+  })
+  async receiveWebhook(
+    @Body() body: MockPayWebhookPayload,
+  ) {
     if (
       !body ||
       typeof body.id !== 'string' ||
