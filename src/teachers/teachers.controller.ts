@@ -20,7 +20,7 @@ import { CreateTeacherDto } from './dto/create-teacher.dto.js';
 import { TeachersService } from './teachers.service.js';
 
 @ApiTags('Teachers')
-@ApiBearerAuth()
+@ApiBearerAuth('access-token')
 @Controller('teachers')
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class TeachersController {

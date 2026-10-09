@@ -22,7 +22,7 @@ import { UpdateSubjectStatusDto } from './dto/update-subject-status.dto.js';
 import { SubjectsService } from './subjects.service.js';
 
 @ApiTags('Subjects')
-@ApiBearerAuth()
+@ApiBearerAuth('access-token')
 @Controller('subjects')
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class SubjectsController {
