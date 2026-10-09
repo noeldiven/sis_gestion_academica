@@ -1,4 +1,5 @@
 import {
+  BadGatewayException,
   BadRequestException,
   ConflictException,
   Injectable,
@@ -7,6 +8,7 @@ import {
   OnModuleInit,
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service.js';
+import { ConfigService } from '@nestjs/config';
 import {
   FinancialObligationStatus,
   FinancialObligationType,
@@ -18,7 +20,9 @@ import {
 export class FinanceService implements OnModuleInit, OnModuleDestroy {
   private overdueInterval?: NodeJS.Timeout;
 
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService,
+    private readonly configService: ConfigService,
+  ) {}
 
   async onModuleInit() {
     await this.processOverdueObligations();
@@ -277,6 +281,295 @@ export class FinanceService implements OnModuleInit, OnModuleDestroy {
       },
     });
   }
+
+async createGatewayCheckout(dto: {
+  financialObligationId: number;
+  amount: number;
+}) {
+    const apiUrl = this.configService
+      .get<string>('MOCKPAY_API_URL');
+
+    const secretKey = this.configService
+      .get<string>('MOCKPAY_SECRET_KEY');
+
+    const currency = this.configService
+      .get<string>('MOCKPAY_CURRENCY') ?? 'USD';
+
+    if (!apiUrl || !secretKey) {
+      throw new BadGatewayException(
+        'MockPay no está configurado en el servidor',
+      );
+    }
+
+    const payment = await this.createPayment({
+      financialObligationId: dto.financialObligationId,
+      amount: dto.amount,
+      method: PaymentMethod.GATEWAY,
+    });
+
+    try {
+      const response = await fetch(
+        `${apiUrl.replace(/\/$/, '')}/api/v1/payments`,
+        {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${secretKey}`,
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+          },
+          body: JSON.stringify({
+            amount: dto.amount,
+            currency,
+            metadata: {
+              order_id: String(payment.id),
+            },
+          }),
+        },
+      );
+
+      if (!response.ok) {
+        throw new Error(
+          `MockPay respondió con HTTP ${response.status}`,
+        );
+      }
+
+      const result: unknown = await response.json();
+
+      if (
+        typeof result !== 'object' ||
+        result === null ||
+        !('id_transaccion' in result) ||
+        !('checkout_url' in result) ||
+        typeof result.id_transaccion !== 'string' ||
+        typeof result.checkout_url !== 'string'
+      ) {
+        throw new Error(
+          'La respuesta de MockPay no tiene el formato esperado',
+        );
+      }
+
+      const checkoutUrl = new URL(result.checkout_url);
+
+      if (checkoutUrl.protocol !== 'https:' &&
+          checkoutUrl.protocol !== 'http:') {
+        throw new Error('La URL de checkout no es válida');
+      }
+
+      await this.prisma.payment.update({
+        where: { id: payment.id },
+        data: {
+          mockPayTransactionId: result.id_transaccion,
+        },
+      });
+
+      return {
+        paymentId: payment.id,
+        status: payment.status,
+        transactionId: result.id_transaccion,
+        checkoutUrl: result.checkout_url,
+        currency,
+        amount: dto.amount,
+        message: 'Checkout creado correctamente',
+      };
+    } catch {
+      await this.prisma.payment.update({
+        where: { id: payment.id },
+        data: {
+          status: PaymentStatus.REJECTED,
+          verifiedAt: new Date(),
+        },
+      });
+
+      throw new BadGatewayException(
+        'No se pudo iniciar el checkout con MockPay. Intenta nuevamente.',
+      );
+    }
+  }
+  
+async processMockPayWebhook(body: {
+  event: 'payment.succeeded' | 'payment.failed';
+  id: string;
+  amount: number;
+  currency: string;
+  status: 'SUCCEEDED' | 'FAILED';
+  failure_reason?: string | null;
+  metadata: {
+    order_id: string;
+  };
+}) {
+  const apiUrl = this.configService.get<string>(
+    'MOCKPAY_API_URL',
+  );
+  const secretKey = this.configService.get<string>(
+    'MOCKPAY_SECRET_KEY',
+  );
+  const currency = this.configService.get<string>(
+    'MOCKPAY_CURRENCY',
+  ) ?? 'USD';
+
+  if (!apiUrl || !secretKey) {
+    throw new BadGatewayException(
+      'MockPay no está configurado',
+    );
+  }
+
+  // Consultar la transacción directamente a MockPay.
+  const response = await fetch(
+    `${apiUrl.replace(/\/$/, '')}/api/v1/payments/${encodeURIComponent(body.id)}`,
+    {
+      headers: {
+        Authorization: `Bearer ${secretKey}`,
+        Accept: 'application/json',
+      },
+    },
+  );
+
+  if (!response.ok) {
+    throw new BadGatewayException(
+      'No se pudo verificar la transacción en MockPay',
+    );
+  }
+
+  const result: unknown = await response.json();
+
+  if (
+    typeof result !== 'object' ||
+    result === null ||
+    !('id' in result) ||
+    !('status' in result) ||
+    !('amount' in result) ||
+    !('currency' in result) ||
+    !('metadata' in result)
+  ) {
+    throw new BadGatewayException(
+      'Respuesta de verificación de MockPay inválida',
+    );
+  }
+
+  const transaction = result as {
+    id: string;
+    status: string;
+    amount: number;
+    currency: string;
+    metadata: { order_id?: string };
+  };
+
+  // Comprobar que la notificación coincide con la transacción real.
+  if (
+    transaction.id !== body.id ||
+    transaction.metadata?.order_id !== body.metadata.order_id ||
+    String(transaction.amount) !== String(body.amount) ||
+    transaction.currency !== body.currency ||
+    transaction.currency !== currency ||
+    transaction.status !== body.status
+  ) {
+    throw new BadRequestException(
+      'Los datos de la notificación no coinciden con MockPay',
+    );
+  }
+
+  const succeeded =
+    body.event === 'payment.succeeded' &&
+    body.status === 'SUCCEEDED';
+
+  const failed =
+    body.event === 'payment.failed' &&
+    body.status === 'FAILED';
+
+  if (!succeeded && !failed) {
+    throw new BadRequestException(
+      'El evento y el estado del pago no coinciden',
+    );
+  }
+
+  const paymentId = Number(body.metadata.order_id);
+
+  if (!Number.isSafeInteger(paymentId) || paymentId <= 0) {
+    throw new BadRequestException(
+      'El ID del pago de SGAF no es válido',
+    );
+  }
+
+  return this.prisma.$transaction(async (tx) => {
+    const payment = await tx.payment.findUnique({
+      where: { id: paymentId },
+      include: {
+        financialObligation: {
+          include: { payments: true },
+        },
+      },
+    });
+
+    if (
+      !payment ||
+      payment.mockPayTransactionId !== body.id ||
+      payment.method !== PaymentMethod.GATEWAY ||
+      Number(payment.amount) !== Number(body.amount)
+    ) {
+      throw new BadRequestException(
+        'La transacción no corresponde al pago de SGAF',
+      );
+    }
+
+    const targetStatus = succeeded
+      ? PaymentStatus.APPROVED
+      : PaymentStatus.REJECTED;
+
+    // Los reintentos de un webhook no deben duplicar el procesamiento.
+    if (payment.status === targetStatus) {
+      return {
+        received: true,
+        alreadyProcessed: true,
+        paymentId,
+        status: payment.status,
+      };
+    }
+
+    if (payment.status !== PaymentStatus.PENDING) {
+      throw new BadRequestException(
+        'El pago ya fue procesado con otro resultado',
+      );
+    }
+
+    await tx.payment.update({
+      where: { id: paymentId },
+      data: {
+        status: targetStatus,
+        verifiedAt: new Date(),
+      },
+    });
+
+    if (succeeded) {
+      const approvedTotal = payment.financialObligation.payments
+        .filter((item) => item.status === PaymentStatus.APPROVED)
+        .reduce(
+          (total, item) => total + Number(item.amount),
+          0,
+        ) + Number(payment.amount);
+
+      if (
+        approvedTotal >=
+        Number(payment.financialObligation.amount)
+      ) {
+        await tx.financialObligation.update({
+          where: {
+            id: payment.financialObligationId,
+          },
+          data: {
+            status: FinancialObligationStatus.PAID,
+          },
+        });
+      }
+    }
+
+    return {
+      received: true,
+      alreadyProcessed: false,
+      paymentId,
+      status: targetStatus,
+    };
+  });
+}
 
   async findAllPayments() {
     return this.prisma.payment.findMany({

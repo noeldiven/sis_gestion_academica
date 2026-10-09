@@ -21,6 +21,7 @@ import { Roles } from '../auth/decorators/roles.decorator.js';
 import { FinanceService } from './finance.service.js';
 import { CreateFinancialObligationDto } from './dto/create-financial-obligation.dto.js';
 import { CreatePaymentDto } from './dto/create-payment.dto.js';
+import { CreateGatewayCheckoutDto } from './dto/create-gateway-checkout.dto.js';
 
 @ApiTags('Finance')
 @ApiBearerAuth('access-token')
@@ -247,4 +248,30 @@ export class FinanceController {
       studentId,
     );
   }
+
+  @Post('payments/checkout')
+  @Roles('ESTUDIANTE', 'ADMIN', 'RECEPCIONISTA')
+  @ApiOperation({
+    summary: 'Iniciar checkout de MockPay',
+    description:
+      'Registra un pago pendiente y solicita a MockPay una URL de checkout.',
+  })
+  @ApiResponse({
+    status: 201,
+    description: 'Checkout creado correctamente.',
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'El monto o la obligación no son válidos.',
+  })
+  @ApiResponse({
+    status: 502,
+    description: 'No fue posible iniciar el checkout externo.',
+  })
+  createGatewayCheckout(
+    @Body() dto: CreateGatewayCheckoutDto,
+  ) {
+    return this.financeService.createGatewayCheckout(dto);
+  }
+
 }

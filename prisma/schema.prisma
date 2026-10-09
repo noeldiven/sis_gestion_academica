@@ -207,6 +207,7 @@ model FinancialObligation {
   @@index([dueDate])
 }
 
+
 model Payment {
   id                    Int                 @id @default(autoincrement())
   financialObligationId Int
@@ -215,6 +216,7 @@ model Payment {
   status                PaymentStatus       @default(PENDING)
   verifiedById          Int?
   verifiedAt            DateTime?
+  mockPayTransactionId  String?             @unique
   createdAt             DateTime            @default(now())
   financialObligation   FinancialObligation @relation(fields: [financialObligationId], references: [id])
   verifiedBy            User?               @relation("PaymentVerifier", fields: [verifiedById], references: [id])
@@ -223,6 +225,7 @@ model Payment {
   @@index([verifiedById])
   @@index([status])
 }
+
 
 enum UserStatus {
   PENDING
