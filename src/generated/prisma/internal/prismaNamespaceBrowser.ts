@@ -265,6 +265,7 @@ export const PaymentScalarFieldEnum = {
   status: 'status',
   verifiedById: 'verifiedById',
   verifiedAt: 'verifiedAt',
+  mockPayTransactionId: 'mockPayTransactionId',
   createdAt: 'createdAt'
 } as const
 

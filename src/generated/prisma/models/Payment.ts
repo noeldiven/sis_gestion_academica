@@ -48,6 +48,7 @@ export type PaymentMinAggregateOutputType = {
   status: $Enums.PaymentStatus | null
   verifiedById: number | null
   verifiedAt: Date | null
+  mockPayTransactionId: string | null
   createdAt: Date | null
 }
 
@@ -59,6 +60,7 @@ export type PaymentMaxAggregateOutputType = {
   status: $Enums.PaymentStatus | null
   verifiedById: number | null
   verifiedAt: Date | null
+  mockPayTransactionId: string | null
   createdAt: Date | null
 }
 
@@ -70,6 +72,7 @@ export type PaymentCountAggregateOutputType = {
   status: number
   verifiedById: number
   verifiedAt: number
+  mockPayTransactionId: number
   createdAt: number
   _all: number
 }
@@ -97,6 +100,7 @@ export type PaymentMinAggregateInputType = {
   status?: true
   verifiedById?: true
   verifiedAt?: true
+  mockPayTransactionId?: true
   createdAt?: true
 }
 
@@ -108,6 +112,7 @@ export type PaymentMaxAggregateInputType = {
   status?: true
   verifiedById?: true
   verifiedAt?: true
+  mockPayTransactionId?: true
   createdAt?: true
 }
 
@@ -119,6 +124,7 @@ export type PaymentCountAggregateInputType = {
   status?: true
   verifiedById?: true
   verifiedAt?: true
+  mockPayTransactionId?: true
   createdAt?: true
   _all?: true
 }
@@ -217,6 +223,7 @@ export type PaymentGroupByOutputType = {
   status: $Enums.PaymentStatus
   verifiedById: number | null
   verifiedAt: Date | null
+  mockPayTransactionId: string | null
   createdAt: Date
   _count: PaymentCountAggregateOutputType | null
   _avg: PaymentAvgAggregateOutputType | null
@@ -251,6 +258,7 @@ export type PaymentWhereInput = {
   status?: Prisma.EnumPaymentStatusFilter<"Payment"> | $Enums.PaymentStatus
   verifiedById?: Prisma.IntNullableFilter<"Payment"> | number | null
   verifiedAt?: Prisma.DateTimeNullableFilter<"Payment"> | Date | string | null
+  mockPayTransactionId?: Prisma.StringNullableFilter<"Payment"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Payment"> | Date | string
   financialObligation?: Prisma.XOR<Prisma.FinancialObligationScalarRelationFilter, Prisma.FinancialObligationWhereInput>
   verifiedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
@@ -264,6 +272,7 @@ export type PaymentOrderByWithRelationInput = {
   status?: Prisma.SortOrder
   verifiedById?: Prisma.SortOrderInput | Prisma.SortOrder
   verifiedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  mockPayTransactionId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   financialObligation?: Prisma.FinancialObligationOrderByWithRelationInput
   verifiedBy?: Prisma.UserOrderByWithRelationInput
@@ -271,6 +280,7 @@ export type PaymentOrderByWithRelationInput = {
 
 export type PaymentWhereUniqueInput = Prisma.AtLeast<{
   id?: number
+  mockPayTransactionId?: string
   AND?: Prisma.PaymentWhereInput | Prisma.PaymentWhereInput[]
   OR?: Prisma.PaymentWhereInput[]
   NOT?: Prisma.PaymentWhereInput | Prisma.PaymentWhereInput[]
@@ -283,7 +293,7 @@ export type PaymentWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"Payment"> | Date | string
   financialObligation?: Prisma.XOR<Prisma.FinancialObligationScalarRelationFilter, Prisma.FinancialObligationWhereInput>
   verifiedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
-}, "id">
+}, "id" | "mockPayTransactionId">
 
 export type PaymentOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -293,6 +303,7 @@ export type PaymentOrderByWithAggregationInput = {
   status?: Prisma.SortOrder
   verifiedById?: Prisma.SortOrderInput | Prisma.SortOrder
   verifiedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  mockPayTransactionId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.PaymentCountOrderByAggregateInput
   _avg?: Prisma.PaymentAvgOrderByAggregateInput
@@ -312,6 +323,7 @@ export type PaymentScalarWhereWithAggregatesInput = {
   status?: Prisma.EnumPaymentStatusWithAggregatesFilter<"Payment"> | $Enums.PaymentStatus
   verifiedById?: Prisma.IntNullableWithAggregatesFilter<"Payment"> | number | null
   verifiedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Payment"> | Date | string | null
+  mockPayTransactionId?: Prisma.StringNullableWithAggregatesFilter<"Payment"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Payment"> | Date | string
 }
 
@@ -320,6 +332,7 @@ export type PaymentCreateInput = {
   method: $Enums.PaymentMethod
   status?: $Enums.PaymentStatus
   verifiedAt?: Date | string | null
+  mockPayTransactionId?: string | null
   createdAt?: Date | string
   financialObligation: Prisma.FinancialObligationCreateNestedOneWithoutPaymentsInput
   verifiedBy?: Prisma.UserCreateNestedOneWithoutVerifiedPaymentsInput
@@ -333,6 +346,7 @@ export type PaymentUncheckedCreateInput = {
   status?: $Enums.PaymentStatus
   verifiedById?: number | null
   verifiedAt?: Date | string | null
+  mockPayTransactionId?: string | null
   createdAt?: Date | string
 }
 
@@ -341,6 +355,7 @@ export type PaymentUpdateInput = {
   method?: Prisma.EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
   status?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   verifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mockPayTransactionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   financialObligation?: Prisma.FinancialObligationUpdateOneRequiredWithoutPaymentsNestedInput
   verifiedBy?: Prisma.UserUpdateOneWithoutVerifiedPaymentsNestedInput
@@ -354,6 +369,7 @@ export type PaymentUncheckedUpdateInput = {
   status?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   verifiedById?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   verifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mockPayTransactionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -365,6 +381,7 @@ export type PaymentCreateManyInput = {
   status?: $Enums.PaymentStatus
   verifiedById?: number | null
   verifiedAt?: Date | string | null
+  mockPayTransactionId?: string | null
   createdAt?: Date | string
 }
 
@@ -373,6 +390,7 @@ export type PaymentUpdateManyMutationInput = {
   method?: Prisma.EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
   status?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   verifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mockPayTransactionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -384,6 +402,7 @@ export type PaymentUncheckedUpdateManyInput = {
   status?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   verifiedById?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   verifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mockPayTransactionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -405,6 +424,7 @@ export type PaymentCountOrderByAggregateInput = {
   status?: Prisma.SortOrder
   verifiedById?: Prisma.SortOrder
   verifiedAt?: Prisma.SortOrder
+  mockPayTransactionId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -423,6 +443,7 @@ export type PaymentMaxOrderByAggregateInput = {
   status?: Prisma.SortOrder
   verifiedById?: Prisma.SortOrder
   verifiedAt?: Prisma.SortOrder
+  mockPayTransactionId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -434,6 +455,7 @@ export type PaymentMinOrderByAggregateInput = {
   status?: Prisma.SortOrder
   verifiedById?: Prisma.SortOrder
   verifiedAt?: Prisma.SortOrder
+  mockPayTransactionId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -549,6 +571,7 @@ export type PaymentCreateWithoutVerifiedByInput = {
   method: $Enums.PaymentMethod
   status?: $Enums.PaymentStatus
   verifiedAt?: Date | string | null
+  mockPayTransactionId?: string | null
   createdAt?: Date | string
   financialObligation: Prisma.FinancialObligationCreateNestedOneWithoutPaymentsInput
 }
@@ -560,6 +583,7 @@ export type PaymentUncheckedCreateWithoutVerifiedByInput = {
   method: $Enums.PaymentMethod
   status?: $Enums.PaymentStatus
   verifiedAt?: Date | string | null
+  mockPayTransactionId?: string | null
   createdAt?: Date | string
 }
 
@@ -600,6 +624,7 @@ export type PaymentScalarWhereInput = {
   status?: Prisma.EnumPaymentStatusFilter<"Payment"> | $Enums.PaymentStatus
   verifiedById?: Prisma.IntNullableFilter<"Payment"> | number | null
   verifiedAt?: Prisma.DateTimeNullableFilter<"Payment"> | Date | string | null
+  mockPayTransactionId?: Prisma.StringNullableFilter<"Payment"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Payment"> | Date | string
 }
 
@@ -608,6 +633,7 @@ export type PaymentCreateWithoutFinancialObligationInput = {
   method: $Enums.PaymentMethod
   status?: $Enums.PaymentStatus
   verifiedAt?: Date | string | null
+  mockPayTransactionId?: string | null
   createdAt?: Date | string
   verifiedBy?: Prisma.UserCreateNestedOneWithoutVerifiedPaymentsInput
 }
@@ -619,6 +645,7 @@ export type PaymentUncheckedCreateWithoutFinancialObligationInput = {
   status?: $Enums.PaymentStatus
   verifiedById?: number | null
   verifiedAt?: Date | string | null
+  mockPayTransactionId?: string | null
   createdAt?: Date | string
 }
 
@@ -655,6 +682,7 @@ export type PaymentCreateManyVerifiedByInput = {
   method: $Enums.PaymentMethod
   status?: $Enums.PaymentStatus
   verifiedAt?: Date | string | null
+  mockPayTransactionId?: string | null
   createdAt?: Date | string
 }
 
@@ -663,6 +691,7 @@ export type PaymentUpdateWithoutVerifiedByInput = {
   method?: Prisma.EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
   status?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   verifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mockPayTransactionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   financialObligation?: Prisma.FinancialObligationUpdateOneRequiredWithoutPaymentsNestedInput
 }
@@ -674,6 +703,7 @@ export type PaymentUncheckedUpdateWithoutVerifiedByInput = {
   method?: Prisma.EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
   status?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   verifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mockPayTransactionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -684,6 +714,7 @@ export type PaymentUncheckedUpdateManyWithoutVerifiedByInput = {
   method?: Prisma.EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
   status?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   verifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mockPayTransactionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -694,6 +725,7 @@ export type PaymentCreateManyFinancialObligationInput = {
   status?: $Enums.PaymentStatus
   verifiedById?: number | null
   verifiedAt?: Date | string | null
+  mockPayTransactionId?: string | null
   createdAt?: Date | string
 }
 
@@ -702,6 +734,7 @@ export type PaymentUpdateWithoutFinancialObligationInput = {
   method?: Prisma.EnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod
   status?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   verifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mockPayTransactionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   verifiedBy?: Prisma.UserUpdateOneWithoutVerifiedPaymentsNestedInput
 }
@@ -713,6 +746,7 @@ export type PaymentUncheckedUpdateWithoutFinancialObligationInput = {
   status?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   verifiedById?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   verifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mockPayTransactionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -723,6 +757,7 @@ export type PaymentUncheckedUpdateManyWithoutFinancialObligationInput = {
   status?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   verifiedById?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   verifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  mockPayTransactionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -736,6 +771,7 @@ export type PaymentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   status?: boolean
   verifiedById?: boolean
   verifiedAt?: boolean
+  mockPayTransactionId?: boolean
   createdAt?: boolean
   financialObligation?: boolean | Prisma.FinancialObligationDefaultArgs<ExtArgs>
   verifiedBy?: boolean | Prisma.Payment$verifiedByArgs<ExtArgs>
@@ -749,6 +785,7 @@ export type PaymentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   status?: boolean
   verifiedById?: boolean
   verifiedAt?: boolean
+  mockPayTransactionId?: boolean
   createdAt?: boolean
   financialObligation?: boolean | Prisma.FinancialObligationDefaultArgs<ExtArgs>
   verifiedBy?: boolean | Prisma.Payment$verifiedByArgs<ExtArgs>
@@ -762,6 +799,7 @@ export type PaymentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   status?: boolean
   verifiedById?: boolean
   verifiedAt?: boolean
+  mockPayTransactionId?: boolean
   createdAt?: boolean
   financialObligation?: boolean | Prisma.FinancialObligationDefaultArgs<ExtArgs>
   verifiedBy?: boolean | Prisma.Payment$verifiedByArgs<ExtArgs>
@@ -775,10 +813,11 @@ export type PaymentSelectScalar = {
   status?: boolean
   verifiedById?: boolean
   verifiedAt?: boolean
+  mockPayTransactionId?: boolean
   createdAt?: boolean
 }
 
-export type PaymentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "financialObligationId" | "amount" | "method" | "status" | "verifiedById" | "verifiedAt" | "createdAt", ExtArgs["result"]["payment"]>
+export type PaymentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "financialObligationId" | "amount" | "method" | "status" | "verifiedById" | "verifiedAt" | "mockPayTransactionId" | "createdAt", ExtArgs["result"]["payment"]>
 export type PaymentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   financialObligation?: boolean | Prisma.FinancialObligationDefaultArgs<ExtArgs>
   verifiedBy?: boolean | Prisma.Payment$verifiedByArgs<ExtArgs>
@@ -806,6 +845,7 @@ export type $PaymentPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     status: $Enums.PaymentStatus
     verifiedById: number | null
     verifiedAt: Date | null
+    mockPayTransactionId: string | null
     createdAt: Date
   }, ExtArgs["result"]["payment"]>
   composites: {}
@@ -1239,6 +1279,7 @@ export interface PaymentFieldRefs {
   readonly status: Prisma.FieldRef<"Payment", 'PaymentStatus'>
   readonly verifiedById: Prisma.FieldRef<"Payment", 'Int'>
   readonly verifiedAt: Prisma.FieldRef<"Payment", 'DateTime'>
+  readonly mockPayTransactionId: Prisma.FieldRef<"Payment", 'String'>
   readonly createdAt: Prisma.FieldRef<"Payment", 'DateTime'>
 }
     
